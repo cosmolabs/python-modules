@@ -26,11 +26,7 @@
 import difflib
 import os
 import hashlib
-import importlib.util
-
-spec1 = importlib.util.spec_from_file_location('log_ops',os.path.abspath(os.path.join('..', 'modules/log_ops.py')))
-log_ops = importlib.util.module_from_spec(spec1)
-spec1.loader.exec_module(log_ops)
+from .log_ops import log_with_pre_bffr
 
 
 def read_file_data(file_path):
@@ -45,10 +41,10 @@ def read_file_data(file_path):
                 file_data = file_to_read.readlines()
             return file_data
         except OSError:
-            log_ops.log_with_pre_bffr("some error occurred while reading the file.")
+            log_with_pre_bffr("some error occurred while reading the file.")
             return file_data
     else:
-        log_ops.log_with_pre_bffr("File path doesn't exist or not able to access.")
+        log_with_pre_bffr("File path doesn't exist or not able to access.")
         return file_data
 
 
@@ -59,7 +55,7 @@ def calculate_file_checksum(file_path):
     # Reading content of first file to calculate hash
     file_readability = read_file_data(file_path)
     if file_readability == "":
-        log_ops.log_with_pre_bffr(f"No checksum for file {file_path}.")
+        log_with_pre_bffr(f"No checksum for file {file_path}.")
     else:
         with open(file_path,"rb") as req_file:
             # sha 256 hash
