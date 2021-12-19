@@ -22,6 +22,7 @@
 
 #!/usr/bin/python
 
+import datetime
 
 def log_with_pre_bffr(str):
     """Prints the given string with an empty line before
@@ -30,6 +31,7 @@ def log_with_pre_bffr(str):
         str (string): String that should be print to the output.
     """
     print("")
+    print(f"###.....{datetime.datetime.now()}.....###")
     print(str)
 
 
@@ -39,6 +41,7 @@ def log_with_post_bffr(str):
     Args:
         str (string): String that should be print to the output.
     """
+    print(f"###.....{datetime.datetime.now()}.....###")
     print(str)
     print("")
 
@@ -50,6 +53,7 @@ def log_with_bffr(str):
         str (string): String that should be print to the output.
     """
     print("")
+    print(f"###.....{datetime.datetime.now()}.....###")
     print(str)
     print("")
 

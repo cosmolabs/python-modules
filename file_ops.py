@@ -26,6 +26,7 @@
 import difflib
 import os
 import hashlib
+import json
 from .log_ops import log_with_pre_bffr
 
 
@@ -41,10 +42,10 @@ def read_file_data(file_path):
                 file_data = file_to_read.readlines()
             return file_data
         except OSError:
-            log_with_pre_bffr("some error occurred while reading the file.")
+            log_with_pre_bffr(f"Some error occurred while reading the file at {file_path}.")
             return file_data
     else:
-        log_with_pre_bffr("File path doesn't exist or not able to access.")
+        log_with_pre_bffr(f"File path {file_path} doesn't exist.")
         return file_data
 
 
@@ -55,7 +56,7 @@ def calculate_file_checksum(file_path):
     # Reading content of first file to calculate hash
     file_readability = read_file_data(file_path)
     if file_readability == "":
-        log_with_pre_bffr(f"No checksum for file {file_path}.")
+        log_with_pre_bffr(f"Cannot calculate checksum for file {file_path}.")
     else:
         with open(file_path,"rb") as req_file:
             # sha 256 hash
@@ -65,11 +66,12 @@ def calculate_file_checksum(file_path):
             # Read and update hash string value in blocks of 4K
             for byte_block in iter(lambda: req_file.read(4096),b""):
                 checksum.update(byte_block)
+        # log_with_pre_bffr(f"Checksum for file {file_path} : {checksum.hexdigest()}.")
         return checksum.hexdigest()
     return None
 
 
-def write_file_data(file_path, file_data):
+def write_file_data(file_path: str, file_data: str):
     """
     writes data to a file in a given path.
     if files exists it will be over written.
@@ -78,12 +80,14 @@ def write_file_data(file_path, file_data):
     if os.path.exists(file_path):
         with open(file_path, "w") as file_to_write:
             file_to_write.write(file_data)
+        log_with_pre_bffr(f"Data written to {file_path}.")
     else:
         with open(file_path, "x") as file_to_write:
             file_to_write.write(file_data)
+        log_with_pre_bffr(f"Created a new file {file_path} and data was written.")
 
 
-def get_file_differences(first_file_path, second_file_path):
+def get_diff_btwn_two_files(first_file_path: str, second_file_path: str):
     """
     returns the difference between 2 files in a html format.
     """
@@ -162,3 +166,11 @@ def compare_two_files(file1_path: str, file2_path: str):
         return -1
         
 
+def read_json_file_data(file_path: str):
+    if os.path.exists(file_path):
+        try:
+            with open(file_path, "r") as file_to_read:
+                file_data = json.load(file_to_read)
+            return file_data
+        except OSError:
+            log_with_pre_bffr(f"Some error occurred while reading the json file at {file_path}.")
