@@ -20,41 +20,42 @@
 
 """
 
-#!/usr/bin/python
-
+# !/usr/bin/python
+# importing libraries
 import datetime
 
-def log_with_pre_bffr(str):
+
+def log_with_pre_bffr(text):
     """Prints the given string with an empty line before
 
     Args:
-        str (string): String that should be print to the output.
+        text (string): String that should be print to the output.
     """
     print("")
     print(f"###.....{datetime.datetime.now()}.....###")
-    print(str)
+    print(text)
 
 
-def log_with_post_bffr(str):
+def log_with_post_bffr(text):
     """Prints the given string with an empty line after
 
     Args:
-        str (string): String that should be print to the output.
+        text (string): String that should be print to the output.
     """
     print(f"###.....{datetime.datetime.now()}.....###")
-    print(str)
+    print(text)
     print("")
 
 
-def log_with_bffr(str):
+def log_with_bffr(text):
     """Prints the given string with an empty line before and after
 
     Args:
-        str (string): String that should be print to the output.
+        text (string): String that should be print to the output.
     """
     print("")
     print(f"###.....{datetime.datetime.now()}.....###")
-    print(str)
+    print(text)
     print("")
 
 

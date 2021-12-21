@@ -18,24 +18,26 @@
 +----------------+-------------------------------------------------------------+
 """
 
-#!/usr/bin/python
+# !/usr/bin/python
 
 # importing libraries.
 import smtplib
 from email.message import EmailMessage
 
-def send_email(email_credentials,email_message):
+
+def send_email(email_credentials, email_message):
     """
-    A function which accepts email credentials(a dictonary)
+    A function which accepts email credentials(a dictionary)
     and an EmailMessage as parameter.
     Sends the email with the data provided.
     """
     email_id = email_credentials["user_id"]
-    email_passwd= email_credentials["user_passwd"]
+    email_passwd = email_credentials["user_passwd"]
 
     with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
         smtp.login(email_id, email_passwd)
         smtp.send_message(email_message)
+
 
 def prepare_email_data(from_email, to_email, subject, content):
     """

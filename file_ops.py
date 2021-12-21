@@ -20,7 +20,7 @@
 
 """
 
-#!/usr/bin/python
+# !/usr/bin/python
 
 # importing libraries.
 import difflib
@@ -58,13 +58,13 @@ def calculate_file_checksum(file_path):
     if file_readability == "":
         log_with_pre_bffr(f"Cannot calculate checksum for file {file_path}.")
     else:
-        with open(file_path,"rb") as req_file:
+        with open(file_path, "rb") as req_file:
             # sha 256 hash
             checksum = hashlib.sha256()
             # md5 hash
             # checksum = hashlib.md5()
             # Read and update hash string value in blocks of 4K
-            for byte_block in iter(lambda: req_file.read(4096),b""):
+            for byte_block in iter(lambda: req_file.read(4096), b""):
                 checksum.update(byte_block)
         # log_with_pre_bffr(f"Checksum for file {file_path} : {checksum.hexdigest()}.")
         return checksum.hexdigest()
@@ -126,9 +126,11 @@ def get_files_from_dir_and_its_sub_dir(dir_abs_path: str, excluded_sub_dirs: lis
     if excluded_sub_dirs is None:
         excluded_sub_dirs = list()
     else:
-        full_path_of_excluded_sub_dirs = [os.path.join(dir_abs_path, an_ex_sub_dir) for an_ex_sub_dir in excluded_sub_dirs]    
+        full_path_of_excluded_sub_dirs = []
+        for an_ex_sub_dir in excluded_sub_dirs:
+            full_path_of_excluded_sub_dirs.append(os.path.join(dir_abs_path, an_ex_sub_dir))
     all_files = list()
-    for a_file_or_dir in files_and_dirs :        
+    for a_file_or_dir in files_and_dirs:
         full_path = os.path.join(dir_abs_path, a_file_or_dir)
         if os.path.isdir(full_path) and full_path not in full_path_of_excluded_sub_dirs:
             temp_files = get_files_from_dir_and_its_sub_dir(full_path, excluded_sub_dirs)
