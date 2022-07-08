@@ -15,7 +15,7 @@
 +----------------+--------------------------------------------------------------+
 | Instructions:  | Do not execute this file, import and use instead.            |
 +----------------+--------------------------------------------------------------+
-| Date Updated:  | 16-Dec-2021                                                  |
+| Date Updated:  | 07-July-2022                                                 +
 +----------------+--------------------------------------------------------------+
 
 """
@@ -78,9 +78,16 @@ def write_file_data(file_path: str, file_data: str):
     if file doesn't exists it will be created.
     """
     if os.path.exists(file_path):
-        with open(file_path, "w") as file_to_write:
-            file_to_write.write(file_data)
-        log_with_pre_bffr(f"Data written to {file_path}.")
+        log_with_pre_bffr("File is avaialbe. Do you want to overwrite?(Y/N)")
+        overwrite_file = input("Y or N : ")
+        if overwrite_file == "Y":
+            with open(file_path, "w") as file_to_write:
+                file_to_write.write(file_data)
+            log_with_pre_bffr(f"Data written to {file_path}.")
+        else:
+            with open(file_path, "a") as file_to_write:
+                file_to_write.write(file_data)
+            log_with_pre_bffr(f"Data appended to {file_path}.") 
     else:
         with open(file_path, "x") as file_to_write:
             file_to_write.write(file_data)
