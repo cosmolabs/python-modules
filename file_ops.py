@@ -15,7 +15,7 @@
 +----------------+--------------------------------------------------------------+
 | Instructions:  | Do not execute this file, import and use instead.            |
 +----------------+--------------------------------------------------------------+
-| Date Updated:  | 07-July-2022                                                 +
+| Date Updated:  | 14-July-2022                                                 +
 +----------------+--------------------------------------------------------------+
 
 """
@@ -74,11 +74,11 @@ def calculate_file_checksum(file_path):
 def write_file_data(file_path: str, file_data: str):
     """
     writes data to a file in a given path.
-    if files exists it will be over written.
+    if files exists it will prompt user to overwrite or to append.
     if file doesn't exists it will be created.
     """
     if os.path.exists(file_path):
-        log_with_pre_bffr("File is avaialbe. Do you want to overwrite?(Y/N)")
+        log_with_pre_bffr(f"File {file_path} is already avaialbe. Do you want to overwrite?(Y/N)")
         overwrite_file = input("Y or N : ")
         if overwrite_file == "Y":
             with open(file_path, "w") as file_to_write:
@@ -176,6 +176,11 @@ def compare_two_files(file1_path: str, file2_path: str):
         
 
 def read_json_file_data(file_path: str):
+    """
+    Reads and return data from the given file path.
+    An empty string will be returned if path doesn't exist or in case of any exception.
+    """
+    file_data = None
     if os.path.exists(file_path):
         try:
             with open(file_path, "r") as file_to_read:
@@ -183,3 +188,32 @@ def read_json_file_data(file_path: str):
             return file_data
         except OSError:
             log_with_pre_bffr(f"Some error occurred while reading the json file at {file_path}.")
+    else:
+        log_with_pre_bffr(f"File path {file_path} doesn't exist.")
+        return file_data
+
+def write_json_file_data(json_data: dict, file_path: str):
+    """
+    writes data to a file in a given path.
+    if files exists it will prompt user to overwrite or to append.
+    if file doesn't exists it will be created.
+    """
+    if os.path.exists(file_path):
+        print(f"File @{file_path} is available. You wish to overwrite(Y/N): ");
+        overwrite_json_data = input("Y/N? ")
+        if(overwrite_json_data == "Y"):
+            try:
+                with open(file_path, "w", encoding='utf-8') as file_to_write:
+                    json.dump(json_data, file_to_write, ensure_ascii=False, indent=4)
+                log_with_pre_bffr(f"Data was over written @{file_path}")
+            except OSError:
+                log_with_pre_bffr(f"Some error occurred while writing the json file @{file_path}.")
+        else:
+            log_with_pre_bffr(f"File @{file_path} was untouched!!")
+    else:
+        try:
+            with open(file_path, "x", encoding='utf-8') as file_to_write:
+                json.dump(json_data, file_to_write, ensure_ascii=False, indent=4)
+            log_with_pre_bffr(f"Data written to the file @{file_path}")
+        except OSError:
+            log_with_pre_bffr(f"Some error occurred while writing the json file @{file_path}.")
